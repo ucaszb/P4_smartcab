@@ -41,7 +41,7 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
 
-        if testing == False:
+        if not testing:
             self.epsilon *= 0.99
         else:
             self.epsilon, self.alpha = 0, 0
@@ -82,7 +82,7 @@ class LearningAgent(Agent):
         for a in self.Q[state]:
             if self.Q[state][a] == self.Q[state][maxq]:
                 maxQ.append(a)
-        
+       #maxQ = [action for action in self.Q[state] if self.Q[state][a] == self.Q[state][maxq]] 
         return random.choice(maxQ)
 
 
@@ -95,7 +95,7 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
-        if self.learning == True:
+        if self.learning:
             if state not in self.Q:
                 self.Q[state] = {}
                 for action in self.valid_actions:
@@ -118,7 +118,7 @@ class LearningAgent(Agent):
         # When not learning, choose a random action
         # When learning, choose a random action with 'epsilon' probability
         #   Otherwise, choose an action with the highest Q-value for the current state  
-        if self.learning == False:
+        if not self.learning:
             action = random.choice(self.valid_actions)
         else:
             if self.epsilon >= random.random():
@@ -139,7 +139,7 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-        if self.learning == True: 
+        if self.learning: 
             self.Q[state][action] = (1 - self.alpha) * self.Q[state][action] + self.alpha * reward
         return None
 
